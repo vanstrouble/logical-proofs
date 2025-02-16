@@ -27,17 +27,42 @@ Examples:
 
 3. "  //wont won't won't"
      --> ["won't", "wont"]
+
+Bonus points (not really, but just for fun):
+
+Avoid creating an array whose memory footprint is roughly as big as the input text.
+Avoid sorting the entire array of unique words.
 """
 
 
+import re
+from collections import Counter
+
+
+# def top_3_words(text):
+#     txt = text.lower()
+#     txt = re.sub(r"[^a-zA-Z']", " ", txt)
+#     words = re.findall(r"\b[a-zA-Z']+\b", txt)
+#     words = [word for word in words if re.search(r"[a-zA-Z]", word)]
+#     word_counts = Counter(words)
+#     most_common_words = word_counts.most_common(3)
+
+#     return [word for word, count in most_common_words]
+
+
 def top_3_words(text):
-    import re
-    from collections import Counter
-    txt = text.lower()
-    txt = re.sub(r"[^a-zA-Z']", " ", txt)
+    text = text.lower()
+
+    chars_to_replace = list("./;:,@#$%^&*()_-+=1234567890!?")
+    for char in chars_to_replace:
+        text = text.replace(char, " ")
+
     words = re.findall(r"\b[a-zA-Z']+\b", text)
+    words = [word for word in words if re.search(r"[a-zA-Z]", word)]
+
     word_counts = Counter(words)
     most_common_words = word_counts.most_common(3)
+
     return [word for word, count in most_common_words]
 
 
